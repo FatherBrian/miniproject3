@@ -1,4 +1,6 @@
 from SentenceReadingAgent import SentenceReadingAgent
+from datetime import datetime
+
 
 def test():
     #This will test your SentenceReadingAgent
@@ -18,7 +20,7 @@ def test():
     question_7 = "How far do David and Lucy walk?"
     question_8 = "How do David and Lucy get to school?"
     question_9 = "At what time do David and Lucy walk to school?"
-
+    start = datetime.now()
     print(test_agent.solve(sentence_1, question_1))  # "Ada"
     print(test_agent.solve(sentence_1, question_2))  # "note" or "a note"
     print(test_agent.solve(sentence_1, question_3))  # "Irene"
@@ -29,6 +31,8 @@ def test():
     print(test_agent.solve(sentence_2, question_7))  # "mile" or "a mile"
     print(test_agent.solve(sentence_2, question_8))  # "walk"
     print(test_agent.solve(sentence_2, question_9))  # "8:00AM"
+    print(datetime.now() - start)
+
 
 if __name__ == "__main__":
     test()

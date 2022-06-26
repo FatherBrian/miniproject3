@@ -1,9 +1,13 @@
+from datetime import datetime
+
+
 class SentenceReadingAgent:
     def __init__(self):
         #If you want to do any initial processing, add it here.
         pass
 
     def solve(self, sentence, question):
+        start = datetime.now()
         #Add your code here! Your solve method should receive
 	#two strings as input: sentence and question. It should
 	#return a string representing the answer to the question.
@@ -335,13 +339,14 @@ class SentenceReadingAgent:
                'ready': 'ADJ',
                'above': 'ADV',
                'ever': 'ADV',
+               'Red': 'PROPN',
                'red': 'ADJ',
                'list': 'NOUN',
                'though': 'SCONJ',
                'feel': 'VERB',
                'talk': 'VERB',
                'bird': 'NOUN',
-               'soon': 'ADV',
+               'soon': 'TIME',
                'body': 'NOUN',
                'dog': 'NOUN',
                'family': 'NOUN',
@@ -547,33 +552,49 @@ class SentenceReadingAgent:
                 print(possible)
                 for word in possible:
                     if pos[word.lower()] == 'VERB':
+                        print(datetime.now() - start)
                         return word
             for word in sentence:
                 if ':' not in word and word not in question and pos[word.lower()] in ['ADJ']:
                     possible.append(word)
             for word in possible:
-                if sentence.index(word) - sentence.index(question[-1]) in range(-2, 2):
+                if sentence.index(word) - sentence.index(question[-1]) in range(-2, 3):
+                    print(datetime.now() - start)
                     return word
 
         if ("How" and "far") in question:
             possible = []
             for word in sentence:
-                if ':' not in word and word not in question and pos[word] in ['NOUN']:
+                if ':' not in word and word not in question and pos[word.lower()] in ['NOUN']:
                     possible.append(word)
             for word in possible:
                 if sentence.index(word) - sentence.index(question[-1]) in range(-3, 3):
+                    print(datetime.now() - start)
+                    return word
+
+        if ("How" and "many") in question:
+            possible = []
+            for word in sentence:
+                if ':' not in word and word not in question and pos[word.lower()] in ['NUM']:
+                    possible.append(word)
+            for word in possible:
+                if pos[word.lower()] in ['NUM']:
+                    print(datetime.now() - start)
                     return word
 
         # Who
-        if "Who" in question:
+        if "Who" in question or ("What" and "name") in question:
             possible = []
             for word in sentence:
                 if ':' not in word and word not in question and pos[word.lower()] in ['NOUN', 'PROPN', 'PRON']:
                     possible.append(word)
             for word in possible:
                 if pos[word.lower()] in ['NOUN', 'PROPN']:
+                    print(datetime.now() - start)
                     return word
+            for word in possible:
                 if pos[word.lower()] == 'PRON':
+                    print(datetime.now() - start)
                     return word
 
         # What
@@ -584,28 +605,43 @@ class SentenceReadingAgent:
                     possible.append(word)
             for word in possible:
                 if 'go' in sentence and sentence.index(word) > sentence.index('go'):
+                    print(datetime.now() - start)
                     return word
             for word in possible:
                 if pos[word.lower()] == 'NOUN':
+                    print(datetime.now() - start)
                     return word
 
         # When
         if "When" in question or 'time' in question:
             for word in sentence:
                 if ':' in word:
+                    print(datetime.now() - start)
                     return word
             for word in sentence:
                 if pos[word.lower()] == 'TIME':
+                    print(datetime.now() - start)
                     return word
 
         # Where
         if "What" in question:
             possible = []
+            if question[-1] == "do":
+                for word in sentence:
+                    if ':' not in word and word not in question and pos[word.lower()] in ['VERB']:
+                        possible.append(word)
+                print(possible)
+                for word in possible:
+                    if pos[word.lower()] == 'VERB':
+                        print(datetime.now() - start)
+                        return word
             for word in sentence:
                 if ':' not in word and word not in question and pos[word.lower()] in ['NOUN']:
                     possible.append(word)
+            print(possible)
             for word in possible:
                 if pos[word.lower()] == 'NOUN':
+                    print(datetime.now() - start)
                     return word
 
         # How
@@ -618,10 +654,12 @@ class SentenceReadingAgent:
                 print(possible)
                 for word in possible:
                     if pos[word.lower()] == 'VERB':
+                        print(datetime.now() - start)
                         return word
             for word in sentence:
                 if ':' not in word and word not in question and pos[word.lower()] in ['VERB', 'ADJ', 'ADV']:
                     possible.append(word)
             for word in possible:
                 if pos[word.lower()] in ['ADJ', 'ADV']:
+                    print(datetime.now() - start)
                     return word
